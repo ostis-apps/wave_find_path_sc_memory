@@ -14,7 +14,7 @@ extern "C" {
 
 using namespace std;
 
-sc_addr graph, rrel_arcs, rrel_nodes, visit, curr_vertex,father;
+sc_addr graph, rrel_arcs, rrel_nodes, visit, curr_vertex, father;
 
 sc_bool set_is_not_empty(sc_addr set)
 {
@@ -151,8 +151,8 @@ void print_graph()
 sc_addr get_other_vertex_incidence_edge(sc_addr edge, sc_addr vertex)
 {
     sc_addr v1, v2, empty;
-    empty.seg=0;
-    empty.offset=0;
+    empty.seg = 0;
+    empty.offset = 0;
 
     get_edge_vertexes(edge, v1, v2);
     if ((SC_ADDR_IS_EQUAL(vertex, v1)) || (SC_ADDR_IS_EQUAL(vertex, v2)))
@@ -176,24 +176,24 @@ void print_route(sc_addr beg, sc_addr end)
     printEl(end);
 
 
-    sc_addr curr_vert,curr_ver=end;
+    sc_addr curr_vert, curr_ver = end;
 
     while (true)
     {
-        sc_iterator5 *arcs= sc_iterator5_f_a_a_a_f_new(
-                                     curr_ver,
-                                     sc_type_arc_common,
-                                     0,
-                                     sc_type_arc_pos_const_perm,
-                                     father);
+        sc_iterator5 *arcs = sc_iterator5_f_a_a_a_f_new(
+                                 curr_ver,
+                                 sc_type_arc_common,
+                                 0,
+                                 sc_type_arc_pos_const_perm,
+                                 father);
         if (SC_TRUE == sc_iterator5_next(arcs))
         {
-            curr_vert=sc_iterator5_value(arcs,2);
-            cout<<"<-";
+            curr_vert = sc_iterator5_value(arcs, 2);
+            cout << "<-";
             printEl(curr_vert);
             //cout<<'2'<<endl;
-            if (SC_ADDR_IS_EQUAL(curr_vert,beg)) break;
-            curr_ver=curr_vert;
+            if (SC_ADDR_IS_EQUAL(curr_vert, beg)) break;
+            curr_ver = curr_vert;
             sc_iterator5_free(arcs);
         }
         else break;
@@ -248,9 +248,9 @@ sc_addr create_wave(sc_addr wave, sc_addr &not_checked_vertexes)
                     sc_memory_element_free(edge);
                     sc_memory_arc_new(sc_type_arc_pos_const_perm, new_wave, other_vertex);
                     /**/
-                    sc_addr boof=sc_memory_arc_new(sc_type_arc_common,other_vertex,vertex);
-                    sc_memory_arc_new(sc_type_arc_pos_const_perm, father,boof);
-                   // sc_memory_element_free(boof);
+                    sc_addr boof = sc_memory_arc_new(sc_type_arc_common, other_vertex, vertex);
+                    sc_memory_arc_new(sc_type_arc_pos_const_perm, father, boof);
+                    // sc_memory_element_free(boof);
                     /**/
                 }
             }
@@ -265,8 +265,8 @@ sc_addr create_wave(sc_addr wave, sc_addr &not_checked_vertexes)
     {
         sc_memory_element_free(new_wave);
         sc_addr new_wave;
-        new_wave.seg=0;
-        new_wave.offset=0;
+        new_wave.seg = 0;
+        new_wave.offset = 0;
         return new_wave;
     }
 }
@@ -349,17 +349,15 @@ sc_addr find_min_path(sc_addr beg_vertex, sc_addr end_vertex)
 
     sc_memory_element_free(not_checked_vertexes);
 
-    empty=sc_memory_node_new(sc_type_const);
+    empty = sc_memory_node_new(sc_type_const);
     return empty;
 
 }
 
-
-
 void run_test(char number_test, sc_char *beg_vertex, sc_char *end_vertex)
 {
     sc_addr beg, end;
-    father=sc_memory_node_new(sc_type_const);
+    father = sc_memory_node_new(sc_type_const);
 
     char gr[3] = "Gx";
     gr[1] = number_test;
@@ -380,7 +378,7 @@ void run_test(char number_test, sc_char *beg_vertex, sc_char *end_vertex)
 
     if (SC_TRUE == sc_memory_is_element(lebel))
     {
-        cout << ": "<<endl;
+        cout << ": " << endl;
         print_route(beg, end);
         sc_memory_element_free(lebel);
     }
@@ -396,7 +394,7 @@ void run_test(char number_test, sc_char *beg_vertex, sc_char *end_vertex)
 int main()
 {
     sc_memory_params params;
- //   sc_addr elem;
+    //   sc_addr elem;
 
     sc_memory_params_clear(&params);
     params.repo_path = "./repo";
@@ -413,6 +411,7 @@ int main()
     run_test('3', (sc_char*)"V1", (sc_char*)"V9");
     run_test('4', (sc_char*)"V5", (sc_char*)"V11");
     cout<<"The end"<<endl;
+
     sc_memory_shutdown();
 
     return 0;
