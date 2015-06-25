@@ -14,14 +14,16 @@ extern "C" {
 
 using namespace std;
 
+sc_memory_context *context = sc_memory_context_new(sc_access_lvl_make_min);
+
 sc_addr graph, rrel_arcs, rrel_nodes, visit, curr_vertex, father;
 
 sc_bool set_is_not_empty(sc_addr set)
 {
-    sc_iterator3 *check = sc_iterator3_f_a_a_new(
-                              set,
-                              sc_type_arc_pos_const_perm,
-                              0);
+    sc_iterator3 *check = sc_iterator3_f_a_a_new(context,
+                          set,
+                          sc_type_arc_pos_const_perm,
+                          0);
     if (SC_TRUE == sc_iterator3_next(check))
     {
         return SC_TRUE;
@@ -37,10 +39,10 @@ sc_bool find_vertex_in_set(sc_addr element, sc_addr set)
 {
     sc_bool find = SC_FALSE;
 
-    sc_iterator3 *location = sc_iterator3_f_a_a_new(
-                                 set,
-                                 sc_type_arc_pos_const_perm,
-                                 0);
+    sc_iterator3 *location = sc_iterator3_f_a_a_new(context,
+                             set,
+                             sc_type_arc_pos_const_perm,
+                             0);
 
     while (SC_TRUE == sc_iterator3_next(location))
     {
@@ -62,34 +64,34 @@ sc_bool find_vertex_in_set(sc_addr element, sc_addr set)
 
 void get_edge_vertexes(sc_addr edge, sc_addr &v1, sc_addr &v2)
 {
-    sc_memory_get_arc_begin(edge, &v1);
-    sc_memory_get_arc_end(edge, &v2);
+    sc_memory_get_arc_begin(context, edge, &v1);
+    sc_memory_get_arc_end(context, edge, &v2);
 }
 
 void print_graph()
 {
     sc_addr arcs, nodes, loc, v1, v2, printed_vertex;
     sc_bool find;
-    printed_vertex = sc_memory_node_new(sc_type_const);
+    printed_vertex = sc_memory_node_new(context, sc_type_const);
 
-    printEl(graph);
+    printEl(context, graph);
     cout << endl << "----------------------" << endl;
 
-    sc_iterator5 *it = sc_iterator5_f_a_a_a_f_new(
-                           graph,
-                           sc_type_arc_pos_const_perm,
-                           0,
-                           sc_type_arc_pos_const_perm,
-                           rrel_arcs);
+    sc_iterator5 *it = sc_iterator5_f_a_a_a_f_new(context,
+                       graph,
+                       sc_type_arc_pos_const_perm,
+                       0,
+                       sc_type_arc_pos_const_perm,
+                       rrel_arcs);
 
     if (SC_TRUE == sc_iterator5_next(it))
     {
         arcs = sc_iterator5_value(it, 2);
 
-        sc_iterator3 *arcs_it = sc_iterator3_f_a_a_new(
-                                    arcs,
-                                    sc_type_arc_pos_const_perm,
-                                    0);
+        sc_iterator3 *arcs_it = sc_iterator3_f_a_a_new(context,
+                                arcs,
+                                sc_type_arc_pos_const_perm,
+                                0);
 
         while (SC_TRUE == sc_iterator3_next(arcs_it))
         {
@@ -98,36 +100,36 @@ void print_graph()
 
             get_edge_vertexes(t_arc, v1, v2);
 
-            printEl(v1);
+            printEl(context, v1);
             printf(" -- ");
-            printEl(v2);
+            printEl(context, v2);
             cout << endl;
 
             if (SC_FALSE == find_vertex_in_set(v1, printed_vertex))
-                sc_memory_arc_new(sc_type_arc_pos_const_perm, printed_vertex, v1);
+                sc_memory_arc_new(context, sc_type_arc_pos_const_perm, printed_vertex, v1);
             if (SC_FALSE == find_vertex_in_set(v2, printed_vertex))
-                sc_memory_arc_new(sc_type_arc_pos_const_perm, printed_vertex, v2);
+                sc_memory_arc_new(context, sc_type_arc_pos_const_perm, printed_vertex, v2);
         }
         sc_iterator3_free(arcs_it);
     }
 
     sc_iterator5_free(it);
 
-    it = sc_iterator5_f_a_a_a_f_new(
-             graph,
-             sc_type_arc_pos_const_perm,
-             0,
-             sc_type_arc_pos_const_perm,
-             rrel_nodes);
+    it = sc_iterator5_f_a_a_a_f_new(context,
+                                    graph,
+                                    sc_type_arc_pos_const_perm,
+                                    0,
+                                    sc_type_arc_pos_const_perm,
+                                    rrel_nodes);
 
     if (SC_TRUE == sc_iterator5_next(it))
     {
         nodes = sc_iterator5_value(it, 2);
 
-        sc_iterator3 *nodes_it = sc_iterator3_f_a_a_new(
-                                     nodes,
-                                     sc_type_arc_pos_const_perm,
-                                     0);
+        sc_iterator3 *nodes_it = sc_iterator3_f_a_a_new(context,
+                                 nodes,
+                                 sc_type_arc_pos_const_perm,
+                                 0);
 
 
         while (SC_TRUE == sc_iterator3_next(nodes_it))
@@ -139,7 +141,7 @@ void print_graph()
 
             if (find == SC_FALSE)
             {
-                printEl(t_node);
+                printEl(context, t_node);
                 cout << endl;
             }
         }
@@ -173,24 +175,24 @@ sc_addr get_other_vertex_incidence_edge(sc_addr edge, sc_addr vertex)
 void print_route(sc_addr beg, sc_addr end)
 {
     //cout<<'1'<<endl;
-    printEl(end);
+    printEl(context, end);
 
 
     sc_addr curr_vert, curr_ver = end;
 
     while (true)
     {
-        sc_iterator5 *arcs = sc_iterator5_f_a_a_a_f_new(
-                                 curr_ver,
-                                 sc_type_arc_common,
-                                 0,
-                                 sc_type_arc_pos_const_perm,
-                                 father);
+        sc_iterator5 *arcs = sc_iterator5_f_a_a_a_f_new(context,
+                             curr_ver,
+                             sc_type_arc_common,
+                             0,
+                             sc_type_arc_pos_const_perm,
+                             father);
         if (SC_TRUE == sc_iterator5_next(arcs))
         {
             curr_vert = sc_iterator5_value(arcs, 2);
             cout << "<-";
-            printEl(curr_vert);
+            printEl(context, curr_vert);
             //cout<<'2'<<endl;
             if (SC_ADDR_IS_EQUAL(curr_vert, beg)) break;
             curr_ver = curr_vert;
@@ -204,30 +206,30 @@ void print_route(sc_addr beg, sc_addr end)
 
 sc_addr create_wave(sc_addr wave, sc_addr &not_checked_vertexes)
 {
-    sc_addr new_wave = sc_memory_node_new(sc_type_const);
+    sc_addr new_wave = sc_memory_node_new(context,sc_type_const);
 
-    sc_iterator3 *it_vertex = sc_iterator3_f_a_a_new(
-                                  wave,
-                                  sc_type_arc_pos_const_perm,
-                                  0);
+    sc_iterator3 *it_vertex = sc_iterator3_f_a_a_new(context,
+                              wave,
+                              sc_type_arc_pos_const_perm,
+                              0);
 
     while (SC_TRUE == sc_iterator3_next(it_vertex))
     {
         sc_addr vertex = sc_iterator3_value(it_vertex, 2);
 
-        sc_iterator5 *arcs = sc_iterator5_f_a_a_a_f_new(
-                                 graph,
-                                 sc_type_arc_pos_const_perm,
-                                 0,
-                                 sc_type_arc_pos_const_perm,
-                                 rrel_arcs);
+        sc_iterator5 *arcs = sc_iterator5_f_a_a_a_f_new(context,
+                             graph,
+                             sc_type_arc_pos_const_perm,
+                             0,
+                             sc_type_arc_pos_const_perm,
+                             rrel_arcs);
         if (SC_TRUE == sc_iterator5_next(arcs))
         {
             sc_addr set_arcs = sc_iterator5_value(arcs, 2);
-            sc_iterator3 *it_arc = sc_iterator3_f_a_a_new(
-                                       set_arcs,
-                                       sc_type_arc_pos_const_perm,
-                                       0);
+            sc_iterator3 *it_arc = sc_iterator3_f_a_a_new(context,
+                                   set_arcs,
+                                   sc_type_arc_pos_const_perm,
+                                   0);
             while (SC_TRUE == sc_iterator3_next(it_arc))
             {
                 sc_addr t_arc = sc_iterator3_value(it_arc, 2);
@@ -237,19 +239,19 @@ sc_addr create_wave(sc_addr wave, sc_addr &not_checked_vertexes)
                 {
                     continue;
                 }
-                sc_iterator3 *find = sc_iterator3_f_a_f_new(
-                                         not_checked_vertexes,
-                                         sc_type_arc_pos_const_perm,
-                                         other_vertex);
+                sc_iterator3 *find = sc_iterator3_f_a_f_new(context,
+                                     not_checked_vertexes,
+                                     sc_type_arc_pos_const_perm,
+                                     other_vertex);
 
                 if (SC_TRUE == sc_iterator3_next(find))
                 {
                     sc_addr edge = sc_iterator3_value(find, 1);
-                    sc_memory_element_free(edge);
-                    sc_memory_arc_new(sc_type_arc_pos_const_perm, new_wave, other_vertex);
+                    sc_memory_element_free(context, edge);
+                    sc_memory_arc_new(context, sc_type_arc_pos_const_perm, new_wave, other_vertex);
                     /**/
-                    sc_addr boof = sc_memory_arc_new(sc_type_arc_common, other_vertex, vertex);
-                    sc_memory_arc_new(sc_type_arc_pos_const_perm, father, boof);
+                    sc_addr boof = sc_memory_arc_new(context, sc_type_arc_common, other_vertex, vertex);
+                    sc_memory_arc_new(context, sc_type_arc_pos_const_perm, father, boof);
                     // sc_memory_element_free(boof);
                     /**/
                 }
@@ -263,7 +265,7 @@ sc_addr create_wave(sc_addr wave, sc_addr &not_checked_vertexes)
     }
     else
     {
-        sc_memory_element_free(new_wave);
+        sc_memory_element_free(context, new_wave);
         sc_addr new_wave;
         new_wave.seg = 0;
         new_wave.offset = 0;
@@ -279,22 +281,22 @@ sc_addr find_min_path(sc_addr beg_vertex, sc_addr end_vertex)
     empty.seg = 0;
 
     sc_bool check = SC_FALSE;
-    sc_addr not_checked_vertexes = sc_memory_node_new(sc_type_const);
+    sc_addr not_checked_vertexes = sc_memory_node_new(context, sc_type_const);
 
-    sc_iterator5 *vertexes = sc_iterator5_f_a_a_a_f_new(
-                                 graph,
-                                 sc_type_arc_pos_const_perm,
-                                 0,
-                                 sc_type_arc_pos_const_perm,
-                                 rrel_nodes);
+    sc_iterator5 *vertexes = sc_iterator5_f_a_a_a_f_new(context,
+                             graph,
+                             sc_type_arc_pos_const_perm,
+                             0,
+                             sc_type_arc_pos_const_perm,
+                             rrel_nodes);
 
     if (SC_TRUE == sc_iterator5_next(vertexes))
     {
         sc_addr set_vertexes = sc_iterator5_value(vertexes, 2);
-        sc_iterator3 *it_vertex = sc_iterator3_f_a_a_new(
-                                      set_vertexes,
-                                      sc_type_arc_pos_const_perm,
-                                      0);
+        sc_iterator3 *it_vertex = sc_iterator3_f_a_a_new(context,
+                                  set_vertexes,
+                                  sc_type_arc_pos_const_perm,
+                                  0);
         while (SC_TRUE == sc_iterator3_next(it_vertex))
         {
             sc_addr curr_vertex = sc_iterator3_value(it_vertex, 2);
@@ -302,16 +304,16 @@ sc_addr find_min_path(sc_addr beg_vertex, sc_addr end_vertex)
             if (SC_ADDR_IS_NOT_EQUAL(curr_vertex, beg_vertex))
             {
                 if (SC_FALSE == find_vertex_in_set(curr_vertex, not_checked_vertexes))
-                    sc_memory_arc_new(sc_type_arc_pos_const_perm, not_checked_vertexes, curr_vertex);
+                    sc_memory_arc_new(context, sc_type_arc_pos_const_perm, not_checked_vertexes, curr_vertex);
             }
         }
     }
 
-    sc_addr new_wave = sc_memory_node_new(sc_type_const);
-    sc_memory_arc_new(sc_type_arc_pos_const_perm, new_wave, beg_vertex);
+    sc_addr new_wave = sc_memory_node_new(context, sc_type_const);
+    sc_memory_arc_new(context, sc_type_arc_pos_const_perm, new_wave, beg_vertex);
 
-    sc_addr wave_list = sc_memory_node_new(sc_type_const);
-    sc_addr wave_list_tail = sc_memory_arc_new(sc_type_arc_pos_const_perm, wave_list, new_wave);
+    sc_addr wave_list = sc_memory_node_new(context, sc_type_const);
+    sc_addr wave_list_tail = sc_memory_arc_new(context, sc_type_arc_pos_const_perm, wave_list, new_wave);
 
     do
     {
@@ -320,18 +322,18 @@ sc_addr find_min_path(sc_addr beg_vertex, sc_addr end_vertex)
 
         if (SC_ADDR_IS_EMPTY(new_wave))
         {
-            sc_memory_element_free(wave_list);
-            sc_memory_element_free(new_wave);
-            sc_memory_element_free(not_checked_vertexes);
+            sc_memory_element_free(context, wave_list);
+            sc_memory_element_free(context, new_wave);
+            sc_memory_element_free(context, not_checked_vertexes);
             return empty;
         }
 
-        wave_list_tail = sc_memory_arc_new(sc_type_arc_pos_const_perm, wave_list, new_wave);
+        wave_list_tail = sc_memory_arc_new(context, sc_type_arc_pos_const_perm, wave_list, new_wave);
 
-        sc_iterator3 *find_end = sc_iterator3_f_a_a_new(
-                                     new_wave,
-                                     sc_type_arc_pos_const_perm,
-                                     0);
+        sc_iterator3 *find_end = sc_iterator3_f_a_a_new(context,
+                                 new_wave,
+                                 sc_type_arc_pos_const_perm,
+                                 0);
 
         while (SC_TRUE == sc_iterator3_next(find_end))
         {
@@ -347,9 +349,9 @@ sc_addr find_min_path(sc_addr beg_vertex, sc_addr end_vertex)
 
     while (check != SC_TRUE);
 
-    sc_memory_element_free(not_checked_vertexes);
+    sc_memory_element_free(context, not_checked_vertexes);
 
-    empty = sc_memory_node_new(sc_type_const);
+    empty = sc_memory_node_new(context, sc_type_const);
     return empty;
 
 }
@@ -357,15 +359,15 @@ sc_addr find_min_path(sc_addr beg_vertex, sc_addr end_vertex)
 void run_test(char number_test, sc_char *beg_vertex, sc_char *end_vertex)
 {
     sc_addr beg, end;
-    father = sc_memory_node_new(sc_type_const);
+    father = sc_memory_node_new(context, sc_type_const);
 
     char gr[3] = "Gx";
     gr[1] = number_test;
-    sc_helper_resolve_system_identifier(gr, &graph);
-    sc_helper_resolve_system_identifier("rrel_arcs", &rrel_arcs);
-    sc_helper_resolve_system_identifier("rrel_nodes", &rrel_nodes);
-    sc_helper_resolve_system_identifier(beg_vertex, &beg);
-    sc_helper_resolve_system_identifier(end_vertex, &end);
+    sc_helper_resolve_system_identifier(context, gr, &graph);
+    sc_helper_resolve_system_identifier(context, "rrel_arcs", &rrel_arcs);
+    sc_helper_resolve_system_identifier(context, "rrel_nodes", &rrel_nodes);
+    sc_helper_resolve_system_identifier(context, beg_vertex, &beg);
+    sc_helper_resolve_system_identifier(context, end_vertex, &end);
     cout << "Graph: ";
 
     print_graph();
@@ -376,11 +378,11 @@ void run_test(char number_test, sc_char *beg_vertex, sc_char *end_vertex)
 
     cout << "Path";
 
-    if (SC_TRUE == sc_memory_is_element(lebel))
+    if (SC_TRUE == sc_memory_is_element(context, lebel))
     {
         cout << ": " << endl;
         print_route(beg, end);
-        sc_memory_element_free(lebel);
+        sc_memory_element_free(context, lebel);
     }
     else
     {
@@ -388,7 +390,7 @@ void run_test(char number_test, sc_char *beg_vertex, sc_char *end_vertex)
     }
 
     cout << endl;
-    sc_memory_element_free(father);
+    sc_memory_element_free(context, father);
 }
 
 int main()
@@ -405,14 +407,14 @@ int main()
     sc_memory_initialize(&params);
 
     //////////////////////////////////////////////////////////////////////////////////
-    run_test('0', (sc_char*)"V1", (sc_char*)"V3");
-    run_test('1', (sc_char*)"V1", (sc_char*)"V5");
-    run_test('2', (sc_char*)"V1", (sc_char*)"V6");
-    run_test('3', (sc_char*)"V1", (sc_char*)"V9");
-    run_test('4', (sc_char*)"V5", (sc_char*)"V11");
-    cout<<"The end"<<endl;
+    run_test('0', (sc_char *)"V1", (sc_char *)"V3");
+    run_test('1', (sc_char *)"V1", (sc_char *)"V5");
+    run_test('2', (sc_char *)"V1", (sc_char *)"V6");
+    run_test('3', (sc_char *)"V1", (sc_char *)"V9");
+    run_test('4', (sc_char *)"V5", (sc_char *)"V11");
+    cout << "The end" << endl;
 
-    sc_memory_shutdown();
+    sc_memory_shutdown(SC_FALSE);
 
     return 0;
 }

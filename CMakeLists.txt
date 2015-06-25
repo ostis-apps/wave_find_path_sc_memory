@@ -12,7 +12,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${SC_MACHINE_ROOT}/bin)
 
 link_directories(${SC_MACHINE_ROOT}/bin)
 
-set(SC_MEMORY_SRC "${SC_MACHINE_ROOT}/sc-memory/src")
+set(SC_MEMORY_SRC "${SC_MACHINE_ROOT}/sc-memory/")
 
 # find dependencies
 if (${UNIX})
