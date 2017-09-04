@@ -361,8 +361,8 @@ int main()
     sc_memory_params params;
 
     sc_memory_params_clear(&params);
-    params.repo_path = "./repo";
-    params.config_file = "./sctp_config.ini";
+    params.repo_path = "../../kb.bin";
+    params.config_file = "../../config/sc-web.ini";
     params.ext_path = "./extensions";
     params.clear = SC_FALSE;
 
