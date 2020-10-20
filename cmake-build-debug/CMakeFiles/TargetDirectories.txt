@@ -1,0 +1,3 @@
+/home/tima/wave_find_path_sc_memory/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/tima/wave_find_path_sc_memory/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/tima/wave_find_path_sc_memory/cmake-build-debug/CMakeFiles/wave.dir
