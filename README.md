@@ -57,6 +57,7 @@ ScAddr — основной тип данных, предназначенный 
 или sc-дугу (context->CreateEdge(ScType, const ScAddr, const ScAddr)).
 
 Типы дуг:
+
     • ScType::EdgeAccessConstPosPerm  - константная позитивная sc-дуга принадлежности
       
     • ScType::Const - константный sc-узел
@@ -159,11 +160,15 @@ G0 -> rrel_nodes: ..nodes;;					//nodes — множество вершин
 
                                              		    Трёхэлементный итератор (итератор 3)
 
-ScIterator3Ptr ищет конструкции типа : V1------>V2
+ScIterator3Ptr ищет конструкции типа :
+
+					V1------>V2
 
 ScIterator3Ptr задаётся тремя параметрами. 
 
-ScIterator3Ptr nodes_it = context->Iterator3(nodes,                                              //известный элемент
+ScIterator3Ptr nodes_it = context->Iterator3(
+
+					     nodes,                                              //известный элемент
 
                                              ScType::EdgeAccessConstPosPerm,                     //тип дуги
 					     
@@ -191,9 +196,11 @@ ScAddr t_node = nodes_it->Get(2);
 В переменную t_node на каждом шаге занесется вершина, на которую указывает итератор nodes_it.
 
 
-                                                             Пятиэлементный итератор (итератор 5)
+                                                          Пятиэлементный итератор (итератор 5)
 
-ScIterator5Ptr ищет конструкции типа : V1----------->V2
+ScIterator5Ptr ищет конструкции типа : 
+
+				    V1----------->V2
 
                                             ^
 					    
@@ -207,7 +214,9 @@ ScIterator5Ptr ищет конструкции типа : V1----------->V2
 					    
 ScIterator5Ptr задаётся пятью параметрами.
   
-it = context->Iterator5(graph,                                             //V1
+it = context->Iterator5(
+
+			graph,                                             //V1
 
                         ScType::EdgeAccessConstPosPerm,                    //тип дуги от V1 к V2
 			
