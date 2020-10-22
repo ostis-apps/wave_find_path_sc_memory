@@ -1,10 +1,5 @@
 #include "utils.h"
-#include <stdio.h>
 #include <iostream>
-
-#define NUMBER_PRECISE 8
-
-
 
 void printEl (const std::unique_ptr<ScMemoryContext>& context, ScAddr element)
 {

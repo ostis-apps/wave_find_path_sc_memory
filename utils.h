@@ -1,5 +1,3 @@
-#ifndef UTILS_H
-#define UTILS_H
 #include "cpp/sc_memory.hpp"
 #include "cpp/sc_iterator.hpp"
 /*
@@ -11,5 +9,3 @@ void printEl(const std::unique_ptr<ScMemoryContext>& context, ScAddr element);
 /*
  * Prints content of given sc-link
 */
-
-#endif // UTILS_H

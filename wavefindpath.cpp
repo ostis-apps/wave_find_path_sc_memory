@@ -1,19 +1,12 @@
-
-#include <stdio.h>
 #include <iostream>
-#include <glib.h>
-#include <unistd.h>
-#include <assert.h>
 #include <vector>
-#include <algorithm>
 #include "cpp/sc_addr.hpp"
 #include "cpp/sc_memory.hpp"
 #include "cpp/sc_iterator.hpp"
 #include "utils.h"
 
-//sc_memory_context *context;
 
-ScAddr graph, rrel_arcs, rrel_nodes, visit, curr_vertex, father;
+ScAddr graph, rrel_arcs, rrel_nodes, father;
 
 bool set_is_not_empty (const std::unique_ptr<ScMemoryContext>& context, ScAddr set){
     ScIterator3Ptr check = context->Iterator3(set,ScType::EdgeAccessConstPosPerm,ScType(0));
@@ -278,9 +271,9 @@ int main()
     sc_memory_params params;
 
     sc_memory_params_clear(&params);
-    params.repo_path = "../ostis/kb.bin";
-    params.config_file = "../ostis/config/sc-web.ini";
-    params.ext_path = "../ostis/sc-machine/bin/extensions";
+    params.repo_path = "/home/tima/ostis/kb.bin";
+    params.config_file = "/home/tima/ostis/config/sc-web.ini";
+    params.ext_path = "/home/tima/ostis/sc-machine/bin/extensions";
     params.clear = SC_FALSE;
 
     ScMemory mem;
