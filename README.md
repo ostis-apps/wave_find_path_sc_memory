@@ -9,7 +9,9 @@
 Последние версии указанного примера и данного документа могут быть найдены в репозитории: https://github.com/ostis-apps/wave_find_path_sc_memory
 или на сервере: Info/Studinfo/~Методическое обеспечение кафедры/~Учебные курсы/2 курс/ПпвИС/1sem/КП 2020
 
-1) Запустите терминал и перейдите в папку ostis-web-platform, выполните команду git clone https://github.com/ostis-apps/wave_find_path_sc_memory
+1) Запустите терминал и перейдите в папку ostis-web-platform, выполните команду 
+
+		git clone https://github.com/ostis-apps/wave_find_path_sc_memory
 
 2) Перейдите в папку wave_find_path_sc_memory и скопируйте папку graph в ostis-web-platform/kb
 
