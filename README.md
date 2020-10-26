@@ -13,7 +13,9 @@
 
 		git clone https://github.com/ostis-apps/wave_find_path_sc_memory
 
-2) Перейдите в папку wave_find_path_sc_memory и скопируйте папку graph в ostis-web-platform/kb
+2) Откройте файл ostis-web-platform/repo.path и допишите в конец строчку:
+		
+		wave_find_path_sc_memory/graph
 
 3) Запустите вашу среду. Запустив среду, необходимо выбрать пункт меню Open Project и в появившемся диалоговом окне указать файл CMakeLists.txt,
 находящийся в папке с примером.
@@ -21,26 +23,31 @@
 4) После этого проект будет виден во вкладке Редактор(Edit). Перейдите в файл wavefindpath.cpp
 
 5) Измените переменные в функции main
-    params.repo_path = "/home/<имя_пользователя>/<путь до папки ostis-web-platform>/kb.bin";
-    params.config_file = "/home/<имя_пользователя>/<путь до папки ostis-web-platform>/config/sc-web.ini";
-    params.ext_path = "/home/<имя_пользователя>/<путь до папки ostis-web-platform>/sc-machine/bin/extensions";
 
-6) Перейдите в файл /home/<имя_компьютера>/<путь до папки ostis-web-platform>/config/sc-web.ini и измените в нем строчки Path и Directory на:
-    Path = /home/<имя_пользователя>/<путь до папки ostis-web-platform>/kb.bin
-    Directory = /home/<имя_пользователя>/<путь до папки ostis-web-platform>/sc-machine/bin/extensions
+    	params.repo_path = "<абсолютный путь к ostis-web-platform>/kb.bin";
+    	params.config_file = "/<абсолютный путь к ostis-web-platform>/config/sc-web.ini";
+    	params.ext_path = "<абсолютный путь к ostis-web-platform>/sc-machine/bin/extensions";
 
-7) Пересоберите базу знаний (~cd <путь до папки ostis-web-platform>/scripts/ ./build_kb.sh)
+6) Перейдите в файл /<абсолютный путь к ostis-web-platform>/config/sc-web.ini и измените в нем строчки Path и Directory на:
+
+    	Path = <абсолютный путь к ostis-web-platform>/kb.bin
+    	Directory = <абсолютный путь к ostis-web-platform>/sc-machine/bin/extensions
+
+7) Пересоберите базу знаний 
+		
+		cd <абсолютный путь к ostis-web-platform>/scripts/
+		./build_kb.sh
 
 8)  Перейдите во вкладку Run. Найтите строчку Edit configuration и нажмите кнопку Add.
 Изменить конфигурацию в строчке Executable нажмите на кнопку Browse... выберите файл wave,
-который должен находится по пути /home/<имя_пользователя>/<путь до папки ostis-web-platform>/sc-machine/bin/wave .
+который должен находится по пути <абсолютный путь к ostis-web-platform>/sc-machine/bin/wave .
 
 Примечание: Если файла wave нет, попробуйте выполнить пункт 7) еще раз
 
 
 9)  Нажмите на вкладку проект (Project) и перейдите во вкладку Run. Найтите строчку Edit configuration.
-Добавьте в строку Environment variables «LD_LIBRARY_PATH=/home/<имя_пользователя>/<путь до папки ostis-web-platform>/sc-machine/bin».
-Найдите строчку Working directory, там путь должен выглядеть следующим образом : /home/<имя_пользователя>/<путь до папки ostis-web-platform>/sc-machine/bin
+Добавьте в строку Environment variables «LD_LIBRARY_PATH=<абсолютный путь к ostis-web-platform>/sc-machine/bin».
+Найдите строчку Working directory, там путь должен выглядеть следующим образом : <абсолютный путь к ostis-web-platform>/sc-machine/bin
 
 
 
