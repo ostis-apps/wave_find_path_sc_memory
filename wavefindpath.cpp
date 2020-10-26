@@ -249,14 +249,14 @@ void run_test (const std::unique_ptr<ScMemoryContext>& context,std::string numbe
 
     std::cout << "Find minimal path from " << beg_vertex << " to "
               << end_vertex << " " << std::endl;
-    ScAddr lebel = find_min_path(context,beg, end);
+    ScAddr label = find_min_path(context,beg, end);
 
     std::cout << "Path";
 
-    if (context->IsElement(lebel)) {
+    if (context->IsElement(label)) {
         std::cout << ": " << std::endl;
         print_route(context,beg, end);
-        context->EraseElement(lebel);
+        context->EraseElement(label);
     } else {
         std::cout << " doesn't exist" << std::endl;
     }
