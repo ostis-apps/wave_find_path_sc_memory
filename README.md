@@ -35,6 +35,7 @@
 
 Примечание: Если файла wave нет, попробуйте выполнить пункт 7) еще раз
 
+
 9)Нажмите на вкладку проект (Project) и перейдите во вкладку Run. Найтите строчку Edit configuration.
 Добавьте в строку Environment variables «LD_LIBRARY_PATH=/home/<имя_пользователя>/<путь до папки ostis-web-platform>/sc-machine/bin».
 Найдите строчку Working directory, там путь должен выглядеть следующим образом : /home/<имя_пользователя>/<путь до папки ostis-web-platform>/sc-machine/bin
