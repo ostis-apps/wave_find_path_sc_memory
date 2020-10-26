@@ -89,11 +89,11 @@ ScAddr — основной тип данных, предназначенный 
     • graph = context->HelperResolveSystemIdtf(gr);
 			-функция записывает в graph адрес элемента, имеющего системный идентификатор gr.
 
-    • context->IsElement(lebel);
-			-функция возвращает true, если элемент label существует в sc-памяти, и false, если элемент lebel удалён.
+    • context->IsElement(label);
+			-функция возвращает true, если элемент label существует в sc-памяти, и false, если элемент label удалён.
       
-    • scontext->EraseElement(lebel);
-			-функция удаляет элемент по адресу lebel из sc-памяти.
+    • scontext->EraseElement(label);
+			-функция удаляет элемент по адресу label из sc-памяти.
 
 Операторы сравнения sc-памяти:
 
