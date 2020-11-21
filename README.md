@@ -32,30 +32,30 @@
 
     	Path = <абсолютный путь к ostis-web-platform>/kb.bin
     	Directory = <абсолютный путь к ostis-web-platform>/sc-machine/bin/extensions
-8) Соберите проект
-7) Пересоберите базу знаний 
+7) Соберите проект
+8) Пересоберите базу знаний 
 		
 		cd <абсолютный путь к ostis-web-platform>/scripts/
 		./build_kb.sh
 
-8)  Перейдите во вкладку Run. Найтите строчку Edit configuration и нажмите кнопку Add.
+9)  Перейдите во вкладку Run. Найтите строчку Edit configuration и нажмите кнопку Add.
 Изменить конфигурацию в строчке Executable нажмите на кнопку Browse... выберите файл wave,
 который должен находится по пути <абсолютный путь к ostis-web-platform>/sc-machine/bin/wave .
 
 Примечание: Если файла wave нет, попробуйте выполнить пункт 7) еще раз
 
 
-9)  Нажмите на вкладку проект (Project) и перейдите во вкладку Run. Найтите строчку Edit configuration.
+10)  Нажмите на вкладку проект (Project) и перейдите во вкладку Run. Найтите строчку Edit configuration.
 Добавьте в строку Environment variables «LD_LIBRARY_PATH=<абсолютный путь к ostis-web-platform>/sc-machine/bin».
 Найдите строчку Working directory, там путь должен выглядеть следующим образом : <абсолютный путь к ostis-web-platform>/sc-machine/bin
 
 
 
 
-10) Сохраните конфигурацию Ctrl+S.
+11) Сохраните конфигурацию Ctrl+S.
 
 
-11) Соберите и запустите проект. Сборка проекта — Ctrl+9, запуск проекта — Shift++10
+12) Соберите и запустите проект. Сборка проекта — Ctrl+9, запуск проекта — Shift++10
 Программа должна найти пути(если они есть) для графов которые находятся в папке ostis/kb/graph.
 
 
