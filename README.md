@@ -32,7 +32,7 @@
 
     	Path = <абсолютный путь к ostis-web-platform>/kb.bin
     	Directory = <абсолютный путь к ostis-web-platform>/sc-machine/bin/extensions
-
+8) Соберите проект
 7) Пересоберите базу знаний 
 		
 		cd <абсолютный путь к ostis-web-platform>/scripts/
