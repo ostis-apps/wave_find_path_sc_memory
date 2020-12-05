@@ -271,9 +271,9 @@ int main()
     sc_memory_params params;
 
     sc_memory_params_clear(&params);
-    params.repo_path = "../kb.bin";
-    params.config_file = "../config/sc-web.ini";
-    params.ext_path = "../sc-machine/bin/extensions";
+    params.repo_path = "/home/tima/ostis/kb.bin";
+    params.config_file = "/home/tima/ostis/config/sc-web.ini";
+    params.ext_path = "/home/tima/ostis/sc-machine/bin/extensions";
     params.clear = SC_FALSE;
 
     ScMemory mem;
