@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vector>
-#include "cpp/sc_addr.hpp"
-#include "cpp/sc_memory.hpp"
-#include "cpp/sc_iterator.hpp"
+#include "sc-memory/sc_addr.hpp"
+#include "sc-memory/sc_memory.hpp"
+#include "sc-memory/sc_iterator.hpp"
 #include "utils.h"
 
 
