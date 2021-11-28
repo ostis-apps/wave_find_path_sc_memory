@@ -51,4 +51,4 @@ include_directories(${SC_MEMORY_SRC} ${GLIB2_INCLUDE_DIRS}${SC_MACHINE_ROOT})
 add_executable(wave wavefindpath.cpp utils.cpp utils.h)
 
 
-target_link_libraries(wave sc-memory sc-memory-cpp ${GLIB2_LIBRARIES})
+target_link_libraries(wave sc-core sc-memory ${GLIB2_LIBRARIES})
