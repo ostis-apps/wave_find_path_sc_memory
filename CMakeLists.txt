@@ -26,6 +26,14 @@ if (${UNIX})
 
 endif(${UNIX})
 
+if (${APPLE})
+    find_package(PkgConfig REQUIRED)
+    pkg_search_module(GLIB2 REQUIRED glib-2.0)
+    pkg_search_module(GLIB2_MODULE REQUIRED gmodule-2.0)
+
+    set (GLIB2_LIBRARIES ${GLIB_LDFLAGS} ${GLIB2_MODULE_LDFLAGS})
+endif(${APPLE})
+
 if (${CMAKE_SYSTEM_NAME} STREQUAL Windows)
 	if(MSVC)
 		message(STATUS "Compiler: MSVC, version: " ${MSVC_VERSION})
