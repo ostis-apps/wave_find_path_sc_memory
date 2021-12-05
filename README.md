@@ -6,6 +6,7 @@
    - [Ручной запуск](#ручной-запуск)
    - [Представление графов в sc-памяти](#представление-графов-в-sc-памяти)
    - [Основные функции](#основные-функции)
+   - [Устранение проблем](#устранение-проблем)
 
 ### Установка
 
@@ -20,15 +21,23 @@
 	git clone https://github.com/ostis-apps/wave_find_path_sc_memory
 	```
 
-1. Откройте файл *ostis-web-platform/repo.path* и допишите в конец строчку:
+2. Откройте файл *ostis-web-platform/repo.path* и допишите в конец строчку:
 	```
 	wave_find_path_sc_memory/graph
 	```
-1. Перейдите в файл *<абсолютный путь к ostis-web-platform>/config/sc-web.ini* и измените в нем строчки Path и Directory на:
+3. Перейдите в файл *<абсолютный путь к ostis-web-platform>/config/sc-web.ini* и измените в нем строчки Path и Directory на:
 	```
 	Path = <абсолютный путь к ostis-web-platform>/kb.bin
 	Directory = <абсолютный путь к ostis-web-platform>/sc-machine/bin/extensions
 	```
+
+4. Измените путь к установленному ostis-web-platform в функции *main* файла *wavefindpath.cpp*
+	```
+	params.repo_path = "<абсолютный путь к ostis-web-platform>/kb.bin";
+	params.config_file = "<абсолютный путь к ostis-web-platform>/config/sc-web.ini";
+	params.ext_path = "<абсолютный путь к ostis-web-platform>/sc-machine/bin/extensions";
+	```
+
 
 ### Запуск в VS Code
 
@@ -38,64 +47,39 @@
 
 1. Запустите Visual Studio Code (VS Code). Запустив редактор, необходимо выбрать пункт меню *File->Open Folder* и в появившемся окне выберите папку *wave_find_path_sc_memory*.
 
-1. Измените переменные в функции *main*
-
-	```
- 	params.repo_path = "<абсолютный путь к ostis-web-platform>/kb.bin";
- 	params.config_file = "<абсолютный путь к ostis-web-platform>/config/sc-web.ini";
- 	params.ext_path = "<абсолютный путь к ostis-web-platform>/sc-machine/bin/extensions";
-	```
-
-1. Пересоберите базу знаний 
+2. Пересоберите базу знаний 
 
 	```
 	cd <абсолютный путь к ostis-web-platform>/scripts/
 	./build_kb.sh
 	```
 
-1. Соберите проект нажатием на клавишу *Сборка (Build) (F7)* или запустите нажатием на клавишу *Запуск (Run) (Shift+F5)*.
+3. Соберите проект нажатием на клавишу *Сборка (Build) (F7)* или запустите нажатием на клавишу *Запуск (Run) (Shift+F5)*.
 
 ### Запуск в CLion
 
 1. Запустите вашу среду. Запустив среду, необходимо выбрать пункт меню *Open Project* и в появившемся диалоговом окне указать файл *CMakeLists.txt*, находящийся в папке с примером.
 
-1. После этого проект будет виден во вкладке *Редактировать (Edit)*. Перейдите в файл *wavefindpath.cpp*
-
-1. Измените переменные в функции *main*
-
-	```
-	params.repo_path = "<абсолютный путь к ostis-web-platform>/kb.bin";
-	params.config_file = "<абсолютный путь к ostis-web-platform>/config/sc-web.ini";
-	params.ext_path = "<абсолютный путь к ostis-web-platform>/sc-machine/bin/extensions";
-	```
-
-1. Соберите проект
-1. Пересоберите базу знаний
+2. После этого проект будет виден во вкладке *Редактировать (Edit)*. Перейдите в файл *wavefindpath.cpp*
+3. Соберите проект
+4. Пересоберите базу знаний
 
 	```
 	cd <абсолютный путь к ostis-web-platform>/scripts/
 	./build_kb.sh
 	```
 
-1. Перейдите во вкладку *Запуск (Run)*. Найтите строчку *Изменить конфигурацию (Edit configuration)* и нажмите кнопку *Добавить (Add)*. Измените конфигурацию в строчке *Исполняемый (Executable)* нажмите на кнопку *Найти... (Browse...)* выберите файл *wave*, который должен находится по пути *<абсолютный путь к ostis-web-platform>/sc-machine/bin/wave*.
+5. Перейдите во вкладку *Запуск (Run)*. Найтите строчку *Изменить конфигурацию (Edit configuration)* и нажмите кнопку *Добавить (Add)*. Измените конфигурацию в строчке *Исполняемый (Executable)* нажмите на кнопку *Найти... (Browse...)* выберите файл *wave*, который должен находится по пути *<абсолютный путь к ostis-web-platform>/sc-machine/bin/wave*.
 
-	Примечание: Если файла wave нет, попробуйте выполнить пункт 7. еще раз
+	Примечание: Если файла wave нет, попробуйте выполнить пункт 3. еще раз
 
-1. Нажмите на вкладку *Проект (Project)* и перейдите во вкладку *Запуск (Run)*. Найтите строчку *Изменить конфигурацию (Edit configuration)*. Добавьте в строку *Переменные окружения (Environment variables) «LD_LIBRARY_PATH=<абсолютный путь к ostis-web-platform>/sc-machine/bin»*. Найдите строчку *Рабочая папка (Working directory)*, там путь должен выглядеть следующим образом: *<абсолютный путь к ostis-web-platform>/sc-machine/bin*
+6. Нажмите на вкладку *Проект (Project)* и перейдите во вкладку *Запуск (Run)*. Найтите строчку *Изменить конфигурацию (Edit configuration)*. Добавьте в строку *Переменные окружения (Environment variables) «LD_LIBRARY_PATH=<абсолютный путь к ostis-web-platform>/sc-machine/bin»*. Найдите строчку *Рабочая папка (Working directory)*, там путь должен выглядеть следующим образом: *<абсолютный путь к ostis-web-platform>/sc-machine/bin*
 
-1. Сохраните конфигурацию Ctrl+S.
+7. Сохраните конфигурацию Ctrl+S.
 
-1. Соберите и запустите проект. Сборка проекта — *Ctrl+9*, запуск проекта — *Shift+10*. Программа должна найти пути (если они есть) для графов которые находятся в папке *ostis-example-app/kb/graph*.
+8. Соберите и запустите проект. Сборка проекта — *Ctrl+9*, запуск проекта — *Shift+10*. Программа должна найти пути (если они есть) для графов которые находятся в папке *ostis-example-app/kb/graph*.
 
 ### Ручной запуск
-
-1. Измените переменные в функции *main*
-
-	```
-	params.repo_path = "<абсолютный путь к ostis-web-platform>/kb.bin";
-	params.config_file = "<абсолютный путь к ostis-web-platform>/config/sc-web.ini";
-	params.ext_path = "<абсолютный путь к ostis-web-platform>/sc-machine/bin/extensions";
-	```
 
 1.  Пересоберите базу знаний
 
@@ -104,25 +88,26 @@
 	./build_kb.sh
 	```
 
-1. Перейдите в папку с проектом
+2. Перейдите в папку с проектом
 
 	```
 	cd <абсолютный путь к ostis-web-platform>/wave_find_path_sc_memory/
 	```
 
-1. Соберите проект 
+3. Соберите проект 
 
 	```
 	cmake -B build
 	cmake --build build
 	```
 
-1. При отсутствии ошибок сборки исполняемый файл *wave* будет находиться в папке *<абсолютный путь к ostis-web-platform>/sc-machine/bin*. Перейдя туда, запустите исполняемый файл.
+4. При отсутствии ошибок сборки исполняемый файл *wave* будет находиться в папке *<абсолютный путь к ostis-web-platform>/sc-machine/bin*. Перейдя туда, запустите исполняемый файл.
 
 	```
 	cd <абсолютный путь к ostis-web-platform>/sc-machine/bin
 	./wave
 	```
+	Если у Вас возникла ошибка с поиском библиотек sc-core.so(dylib) и других библиотек sc-memory, обратитесь к пункту [Решение проблем](#устранение-проблем)
 
 ### Представление графов в sc-памяти
 
@@ -336,4 +321,9 @@ loc != element;
 		}
 		std::cout << std::endl;
 	}
-	```  
+	```
+	
+### Устранение проблем
+1. `./wave` не запускается, ошибка поиска библиотек sc-memory:
+Вам необходимо добавить переменную окружения LD_LIBRARY_PATH и указать в ней путь к библиотекам sc-memory: `<путь-к-ostis-web-platform>/sc-machine/bin>`. Делать это нужно в среде, где вы запускаете приложение. Например, в настройки проекта VS Code или JetBrains CLion, или в терминале. Пример для терминала: `LD_LIBRARY_PATH=/Users/fallenchromium/demonstration/ostis-web-platform/sc-machine/bin ./wave`. Примечание: для macOS High Sierra и новее используется переменная `DYLD_FALLBACK_LIBRARY_PATH`  
+
