@@ -37,7 +37,10 @@
 	params.config_file = "<абсолютный путь к ostis-web-platform>/config/sc-web.ini";
 	params.ext_path = "<абсолютный путь к ostis-web-platform>/sc-machine/bin/extensions";
 	```
+	
+Пример начальной установки:
 
+![Пример установки](https://user-images.githubusercontent.com/43214067/144743496-77192c62-57be-44cf-a0e5-62f314f3e76e.gif)
 
 ### Запуск в VS Code
 
@@ -55,6 +58,9 @@
 	```
 
 3. Соберите проект нажатием на клавишу *Сборка (Build) (F7)* или запустите нажатием на клавишу *Запуск (Run) (Shift+F5)*.
+
+Пример запуска и вывода программы: (обратите внимание на решение ошибки нахождения libsc-core (см. пункт [Устранение проблем](#устранение-проблем)). Для запуска с использованием библиотек, перед командой запуска добавлена переменная среды, указывающая полный путь до *ostis-web-platform/sc-machine/bin*) 
+![wave-find-path-running-vscode](https://user-images.githubusercontent.com/43214067/144744560-4d0c494c-5c62-49fe-85cc-bf59e92e8711.gif)
 
 ### Запуск в CLion
 
