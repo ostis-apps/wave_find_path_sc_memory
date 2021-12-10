@@ -1,310 +1,335 @@
-   КП ППвИС(часть 1)
+   ## КП ППвИС (часть 1)
    
-   Установка
+   - [Установка](#установка)
+   - [Запуск в VS Code](#запуск-в-vs-code)
+   - [Запуск в CLion](#запуск-в-clion)
+   - [Ручной запуск](#ручной-запуск)
+   - [Представление графов в sc-памяти](#представление-графов-в-sc-памяти)
+   - [Основные функции](#основные-функции)
+   - [Устранение проблем](#устранение-проблем)
+
+### Установка
 
 Для выполнения первой части КП по курсу ППвИС разработан пример реализации волнового алгоритма поиска минимального пути в графе на базе библиотеки sc-memory.
 
-На вашем компьютере должна быть установлена версия ostis ветки 0.5.0 из репозитория: https://github.com/ostis-dev/ostis-web-platform.
+На вашем компьютере должна быть установлена версия ostis ветки 0.6.0 из репозитория: https://github.com/ostis-dev/ostis-web-platform.
 
 Последние версии указанного примера и данного документа могут быть найдены в репозитории: https://github.com/ostis-apps/wave_find_path_sc_memory
-или на сервере: Info/Studinfo/~Методическое обеспечение кафедры/~Учебные курсы/2 курс/ПпвИС/1sem/КП 2020
 
-1) Запустите терминал и перейдите в папку ostis-web-platform, выполните команду 
+1. Запустите терминал и перейдите в папку *ostis-web-platform*, выполните команду 
+	```
+	git clone https://github.com/ostis-apps/wave_find_path_sc_memory
+	```
 
-		git clone https://github.com/ostis-apps/wave_find_path_sc_memory
+2. Откройте файл *ostis-web-platform/repo.path* и допишите в конец строчку:
+	```
+	wave_find_path_sc_memory/graph
+	```
+3. Перейдите в файл *<абсолютный путь к ostis-web-platform>/config/sc-web.ini* и измените в нем строчки Path и Directory на:
+	```
+	Path = <абсолютный путь к ostis-web-platform>/kb.bin
+	Directory = <абсолютный путь к ostis-web-platform>/sc-machine/bin/extensions
+	```
 
-2) Откройте файл ostis-web-platform/repo.path и допишите в конец строчку:
-		
-		wave_find_path_sc_memory/graph
+4. Измените путь к установленному ostis-web-platform в функции *main* файла *wavefindpath.cpp*
+	```
+	params.repo_path = "<абсолютный путь к ostis-web-platform>/kb.bin";
+	params.config_file = "<абсолютный путь к ostis-web-platform>/config/sc-web.ini";
+	params.ext_path = "<абсолютный путь к ostis-web-platform>/sc-machine/bin/extensions";
+	```
+	
+Пример начальной установки:
 
-3) Запустите вашу среду. Запустив среду, необходимо выбрать пункт меню Open Project и в появившемся диалоговом окне указать файл CMakeLists.txt,
-находящийся в папке с примером.
+![Пример установки](https://user-images.githubusercontent.com/43214067/144743496-77192c62-57be-44cf-a0e5-62f314f3e76e.gif)
 
-4) После этого проект будет виден во вкладке Редактор(Edit). Перейдите в файл wavefindpath.cpp
+### Запуск в VS Code
 
-5) Измените переменные в функции main
+Для работы Вам необходимо заранее установить расширение CMake Tools. Для его установки необходимо открыть вкладку *Расширения (Extensions) (Ctrl+Shift+X)* и написать в поиске "cmake", после чего открыть нужную вкладку и нажать *Установить (Install)*.
 
-    	params.repo_path = "<абсолютный путь к ostis-web-platform>/kb.bin";
-    	params.config_file = "/<абсолютный путь к ostis-web-platform>/config/sc-web.ini";
-    	params.ext_path = "<абсолютный путь к ostis-web-platform>/sc-machine/bin/extensions";
+На нижней панели нажатием на *Выбор инструмента (Select kit)* выбрать установленный компилятор. 
 
-6) Перейдите в файл /<абсолютный путь к ostis-web-platform>/config/sc-web.ini и измените в нем строчки Path и Directory на:
+1. Запустите Visual Studio Code (VS Code). Запустив редактор, необходимо выбрать пункт меню *File->Open Folder* и в появившемся окне выберите папку *wave_find_path_sc_memory*.
 
-    	Path = <абсолютный путь к ostis-web-platform>/kb.bin
-    	Directory = <абсолютный путь к ostis-web-platform>/sc-machine/bin/extensions
-7) Соберите проект
-8) Пересоберите базу знаний 
-		
-		cd <абсолютный путь к ostis-web-platform>/scripts/
-		./build_kb.sh
+2. Пересоберите базу знаний 
 
-9)  Перейдите во вкладку Run. Найтите строчку Edit configuration и нажмите кнопку Add.
-Изменить конфигурацию в строчке Executable нажмите на кнопку Browse... выберите файл wave,
-который должен находится по пути <абсолютный путь к ostis-web-platform>/sc-machine/bin/wave .
+	```
+	cd <абсолютный путь к ostis-web-platform>/scripts/
+	./build_kb.sh
+	```
 
-Примечание: Если файла wave нет, попробуйте выполнить пункт 7) еще раз
+3. Соберите проект нажатием на клавишу *Сборка (Build) (F7)* или запустите нажатием на клавишу *Запуск (Run) (Shift+F5)*.
 
+Пример запуска и вывода программы: (обратите внимание на решение ошибки нахождения libsc-core (см. пункт [Устранение проблем](#устранение-проблем)). Для запуска с использованием библиотек, перед командой запуска добавлена переменная среды, указывающая полный путь до *ostis-web-platform/sc-machine/bin*) 
+![wave-find-path-running-vscode](https://user-images.githubusercontent.com/43214067/144744560-4d0c494c-5c62-49fe-85cc-bf59e92e8711.gif)
 
-10)  Нажмите на вкладку проект (Project) и перейдите во вкладку Run. Найтите строчку Edit configuration.
-Добавьте в строку Environment variables «LD_LIBRARY_PATH=<абсолютный путь к ostis-web-platform>/sc-machine/bin».
-Найдите строчку Working directory, там путь должен выглядеть следующим образом : <абсолютный путь к ostis-web-platform>/sc-machine/bin
+### Запуск в CLion
 
+1. Запустите вашу среду. Запустив среду, необходимо выбрать пункт меню *Open Project* и в появившемся диалоговом окне указать файл *CMakeLists.txt*, находящийся в папке с примером.
 
+2. После этого проект будет виден во вкладке *Редактировать (Edit)*. Перейдите в файл *wavefindpath.cpp*
+3. Соберите проект
+4. Пересоберите базу знаний
 
+	```
+	cd <абсолютный путь к ostis-web-platform>/scripts/
+	./build_kb.sh
+	```
 
-11) Сохраните конфигурацию Ctrl+S.
+5. Перейдите во вкладку *Запуск (Run)*. Найтите строчку *Изменить конфигурацию (Edit configuration)* и нажмите кнопку *Добавить (Add)*. Измените конфигурацию в строчке *Исполняемый (Executable)* нажмите на кнопку *Найти... (Browse...)* выберите файл *wave*, который должен находится по пути *<абсолютный путь к ostis-web-platform>/sc-machine/bin/wave*.
 
+	Примечание: Если файла wave нет, попробуйте выполнить пункт 3. еще раз
 
-12) Соберите и запустите проект. Сборка проекта — Ctrl+9, запуск проекта — Shift++10
-Программа должна найти пути(если они есть) для графов которые находятся в папке ostis/kb/graph.
+6. Нажмите на вкладку *Проект (Project)* и перейдите во вкладку *Запуск (Run)*. Найтите строчку *Изменить конфигурацию (Edit configuration)*. Добавьте в строку *Переменные окружения (Environment variables) «LD_LIBRARY_PATH=<абсолютный путь к ostis-web-platform>/sc-machine/bin»*. Найдите строчку *Рабочая папка (Working directory)*, там путь должен выглядеть следующим образом: *<абсолютный путь к ostis-web-platform>/sc-machine/bin*
 
+7. Сохраните конфигурацию Ctrl+S.
 
+8. Соберите и запустите проект. Сборка проекта — *Ctrl+9*, запуск проекта — *Shift+10*. Программа должна найти пути (если они есть) для графов которые находятся в папке *ostis-example-app/kb/graph*.
 
+### Ручной запуск
 
-   Основные функции
+1.  Пересоберите базу знаний
 
-ScAddr — основной тип данных, предназначенный для хранения адреса sc-элемента в памяти.
-По этому адресу мы можем хранить sc-узел (context->CreateNode(ScType)), sc-ссылку (context->CreateLink())
-или sc-дугу (context->CreateEdge(ScType, const ScAddr, const ScAddr)).
+	```
+	cd <абсолютный путь к ostis-web-platform>/scripts/
+	./build_kb.sh
+	```
 
-Типы дуг:
+2. Перейдите в папку с проектом
 
-    • ScType::EdgeAccessConstPosPerm  - константная позитивная sc-дуга принадлежности
-      
-    • ScType::Const - константный sc-узел
-      
-    • sScType::EdgeDCommon — sc-ребро общего вида
+	```
+	cd <абсолютный путь к ostis-web-platform>/wave_find_path_sc_memory/
+	```
 
-Функции для работы с sc-памятью:
+3. Соберите проект 
 
-    • ScAddr printed_vertex; 
-		 	- объявляется переменная printed_vertex, которая содержит адрес узла printed_vertex в sc-памяти (sc-адрес)
+	```
+	cmake -B build
+	cmake --build build
+	```
 
-    • printed_vertex = context->CreateNode(ScType::Const);
-			 - в sc-памяти создается новый узел, sc-адрес которого возвращается переменной printed_vertex
+4. При отсутствии ошибок сборки исполняемый файл *wave* будет находиться в папке *<абсолютный путь к ostis-web-platform>/sc-machine/bin*. Перейдя туда, запустите исполняемый файл.
 
-    • context->CreateEdge(ScType::EdgeAccessConstPosPerm,printed_vertex, v1);
-			- функция создает дугу с типом type (например,EdgeAccessConstPosPerm) от узла printed_vertex к узлу v1
+	```
+	cd <абсолютный путь к ostis-web-platform>/sc-machine/bin
+	./wave
+	```
+	Если у Вас возникла ошибка с поиском библиотек sc-core.so(dylib) и других библиотек sc-memory, обратитесь к пункту [Решение проблем](#устранение-проблем)
 
-    • graph = context->HelperResolveSystemIdtf(gr);
-			-функция записывает в graph адрес элемента, имеющего системный идентификатор gr.
+### Представление графов в sc-памяти
 
-    • context->IsElement(label);
-			-функция возвращает true, если элемент label существует в sc-памяти, и false, если элемент label удалён.
-      
-    • scontext->EraseElement(label);
-			-функция удаляет элемент по адресу label из sc-памяти.
+В SСs граф G0 состоящий из трех вершин можно записать следующим образом:  	
 
-Операторы сравнения sc-памяти:
+```cpp
+graph -> G0;;
 
+// arcs — множество дуг, nodes — множество вершин
+// rrel_arcs — дуга', rrel_nodes — вершина'
+G0 -> rrel_arcs: ..arcs;
+   -> rrel_nodes: ..nodes;;
 
- 	• vertex == v1;
-  			- возвращает true, если vertex эквивалентен v1, и false, если vertex не эквивалентен v1
-   
- 	• loc != element;
-   			- функция возвращает true, если loc не эквивалентен element, и false, если loc эквивалентен element
-      
-Методы sc-памяти:
+..nodes -> V1;
+        -> V2;
+        -> V3;;
 
-    • addr.IsValid();
-      - возвращает true, если адрес addr непустой, и false, если адрес addr пустой.
-      
-    • Поумолчанию при создании sc-узла он является пустым.
+..arcs -> (V1 => V2);
+       -> (V2 => V3);;
+```
 
-Функции, реализованные в примере:
+Граф G0 записаный в SCg выглядит следующим образом
+![](/docs/graph_example.png)
 
-    • find_vertex_in_set(context, v1, printed_vertex); 
-      - функция проверяет, есть ли элемент v1 во множестве  printed_vertex. Возвращает false если элемента нет, и true если элемент есть.
-      
-    • printEl(context, t_node); 
-      - функция выводит в консоль идентификатор узла t_node
-      
-    • get_edge_vertexes(context,t_arc, v1, v2);
-      - функция записывает начало дуги t_arc в v1, конец дуги t_arc в v2
-      
-    • other_vertex = get_other_vertex_incidence_edge(context,t_arc, vertex);
-      -функция возвращает переменной other_vertex вершину графа G0, которая связана с вершиной vertex дугой t_arc.
-      
-    • Функции для работы с sc-ссылками:
-      
-    • ScMemoryContext::GetLinkContent(ScAddr const & addr, ScStream & stream);
-                 - сохраняет в поток содержимое sc-ссылки
-                 
-    • ScStream::StreamToString(ScStream const & stream, std::string & outString);
-                 - передает данные из потока в строку
-                 
-    • ScMemoryContext::SetLinkContent(ScAddr const & addr, ScStream const & stream);
-                 - передает данные из потока в sc-ссылку
-        
-    • StreamFromString(std::string const & str, ScStreamMemory & outStream);;
-                 - передает данные из строки в поток
-      
-Представление графа в SCs-коде 
+### Основные функции
 
-В SСs граф G0 состоящий из трех вершин можно записать следующим образом: 
+*ScAddr* — основной тип данных, предназначенный для хранения адреса *sc-элемента* в памяти.
+По этому адресу мы можем хранить:
+- sc-узел (*context->CreateNode(ScType)*),
+- sc-ссылку (*context->CreateLink(ScType)*)
+- sc-дугу (*context->CreateEdge(ScType, const ScAddr, const ScAddr)*).
 
-SCs: 	
+ 1. #### Основные типы элементов
 
+	Основные типы используемых элементов могут быть найдены в официальной документации по [ссылке](https://ostis-dev.github.io/sc-machine/cpp/el_types/)
 
-	graph -> G0;;
+2. #### Основные функции для работы с sc-памятью:
 
-	G0 -> rrel_arcs: ..arcs;				//arcs — множество дуг 
-								//rrel_arcs — дуга'
-								
-	G0 -> rrel_nodes: ..nodes;;				//nodes — множество вершин
-								//rrel_nodes — вершина'
+```cpp
+// объявляется переменная printed_vertex, которая содержит адрес узла printed_vertex в 
+// sc-памяти (sc-адрес)
+ScAddr printed_vertex;
 
-	..nodes -> V1;;
+// в sc-памяти создается новый константный sc-узел, sc-адрес которого возвращается 
+// переменной printed_vertex
+printed_vertex = context->CreateNode(ScType::Const);
 
-	..nodes -> V2;;
+// функция создает дугу заданного типа (например, EdgeAccessConstPosPerm) от узла 
+// printed_vertex к узлу v1
+context->CreateEdge(ScType::EdgeAccessConstPosPerm, printed_vertex, v1);
 
-	..nodes -> V3;;
+// функция записывает в graph адрес элемента, имеющего системный идентификатор concept_graph
+graph = context->HelperResolveSystemIdtf("concept_graph");
 
-	..arcs -> (V1 => V2);;
+// функция возвращает true, если элемент label (типа ScAddr) существует в sc-памяти, и 
+// false, если элемент label удалён
+context->IsElement(label);
 
-	..arcs -> (V2 => V3);;
+// функция удаляет элемент по адресу label из sc-памяти
+context->EraseElement(label);
 
+// возвращает true, если адрес addr непустой, и false, если адрес addr пустой
+// по умолчанию при создации элемента он всегда является пустым
+addr.IsValid();
 
+// сохраняет содержимое sc-ссылки addr в sc-поток stream
+ScMemoryContext::GetLinkContent(ScAddr const& addr, ScStream& stream);
 
+// передает данные из потока stream в строку outString
+ScStream::StreamToString(ScStream const& stream, std::string& outString);
 
+// передает данные из потока stream в sc-ссылку addr
+ScMemoryContext::SetLinkContent(ScAddr const& addr, ScStream const& stream);
 
+// Создаёт и возвращает поток из строки str
+ScStreamConverter::StreamFromString(std::string const& str);
+```
 
-   Итераторы
+3. #### Операторы сравнения в sc-памяти:
 
-Трёхэлементный итератор (итератор 3)
+```cpp
+// возвращает true, если vertex эквивалентен v1, и false, если vertex не эквивалентен v1
+vertex == v1;
 
-ScIterator3Ptr ищет конструкции типа :
+// функция возвращает true, если loc не эквивалентен element, и false, если loc 
+// эквивалентен element
+loc != element;
+```
 
-					V1------>V2
+4. #### Итераторы
 
-ScIterator3Ptr задаётся тремя параметрами. 
+* **Трёхэлементный итератор (итератор 3)**
 
+	*ScIterator3Ptr* ищет конструкции типа :
 
+	![](/docs/iterator3.png)
+
+	*ScIterator3Ptr* задаётся тремя параметрами, соответствующими элементам в трёхэлементной конструкции: 
+	
+	```cpp
+	// nodes - адрес известного элемента
+	// ScType::EdgeAccessConstPosPerm - тип 2-го элемента
+	// ScType(0) - тип 3-го элемента
 	ScIterator3Ptr nodes_it = context->Iterator3(
+				nodes,
+				ScType::EdgeAccessConstPosPerm,
+				ScType(0)
+				);                                         
+	```
 
-					     	nodes,                                              //известный элемент
+	Запись *ScType(0)* эквивалентна записи *ScType::Unknown* и соответствует элементу любого типа.
 
-                                             	ScType::EdgeAccessConstPosPerm,                     //тип дуги
-					     
-                                             	ScType(0));                                         //тип элемента (0 - любой)
+	Результатом работы функции является создание трёхэлементного итератора *nodes_it*, содержащего 	все конструкции, попадающие под переданные на вход функции типы элементов. Таким образом можно получить все элементы, принадлежащие узлу с адресом nodes.
 
-- функция создает трёхэлементный итератор с названием nodes_it . Итератор будет искать для нашего G0 вершины V1, V2 и V3,
-в данном случае эти вершины — неизвестное (2) 
+* **Пятиэлементный итератор (итератор 5)**
 
-
-
-	nodes_it->Next();
+	*ScIterator5Ptr* ищет конструкции типа : 
 	
-	
-	
-- функция переходит к следующему элементу nodes_it и возвращает true, если такой элемент есть,
-в противном случае она возвращает false (при первом использовании находит первую конструкцию).
-
-
-
-
-	ScAddr t_node = nodes_it->Get(2);
-	
-	
-	
-- функция заносит в узел t_node элемент итератора nodes_it под номером 2 (наше неизвестное).
-
-В переменной nodes хранится множество всех вершин графа G0. Итератор nodes_it найдет три удовлетворяющие условию конструкции (смотрите SCg).
-В переменную t_node на каждом шаге занесется вершина, на которую указывает итератор nodes_it.
-
-
-   Пятиэлементный итератор (итератор 5)
-
-ScIterator5Ptr ищет конструкции типа : 
-
-				    V1----------->V2
-
-                                            ^
+	![](/docs/iterator5.png)
 					    
-                                            |
-					    
-                                            |
-					    
-                                            |
-					    
-                                            V3
-					    
-ScIterator5Ptr задаётся пятью параметрами.
-  
-	it = context->Iterator5(
+	*ScIterator5Ptr* задаётся пятью параметрами, соответствующими элементам в пятиэлементной конструкции:
 
-			graph,                                             //V1
-
-                        ScType::EdgeAccessConstPosPerm,                    //тип дуги от V1 к V2
+	```cpp
+	// graph - адрес известного элемента
+	// ScType::EdgeAccessConstPosPerm - тип 2-го элемента
+	// ScType(0) - тип 3-го элемента
+	// ScType::EdgeAccessConstPosPerm - тип 4-го элемента
+	// rrel_nodes - адрес известного элемента
+	ScIterator5Ptr it = context->Iterator5(
+				graph,
+				ScType::EdgeAccessConstPosPerm,
+				ScType(0),
+				ScType::EdgeAccessConstPosPerm,
+				rrel_nodes
+				);                                         
+	```
 			
-                        ScType(0),                                         //тип элемента V2 (0 - любой)
-			
-                        ScType::EdgeAccessConstPosPerm,                    //тип дуги от V3 к дуге (от V1 к V2)
-			
-                        rrel_nodes);                                       //V3
-			
-                        
--функция создает пятиэлементный итератор с названием it. Итератор будет искать  пятиэлементные конструкции,
-(?) - неизвестное задано параметром 0, чтобы учесть все типы sc-элементов
-
-
-
-	it->Next();
+	Результатом работы функции является создание пятиэлементного итератора *it*, содержащего все конструкции, попадающие под переданные на вход функции типы элементов. При помощи данного итератора можно получать элементы связанные некоторым отношением с заданным.
 	
+
+* **Применение итераторов**
+
+	Для получения следующего элемента итератора предусмотрена функция *Next()*, а для получения конкретного элемента конструкции используется функция *Get(<номер элемента>)*.
 	
-	
-- функция переходит к следующему элементу it и возвращает true, если есть такой элемент,
-в противном случае она возвращает false (при первом использовании находит первую конструкцию).
-
-
-
-
-	nodes = it->Get(2);
-	
-	
-	
-	
-- функция заносит в узел nodes элемент итератора it под номером 2 (наше неизвестное).
-
-В переменной graph хранится название нашего графа, в первом тесте это G0.
-Итератор it найдет единственную удовлетворяющую конструкцию и занесет в переменную  nodes - узел с названием  nodes (смотрите SCg) — наше неизвестное (V2).
-
-
-Пример работы итераторов на основе функции вывода всех вершин :
-
-
-	void showAllNodes() 							    // Функция выводит на экран все вершины графа graph
-
+	Так представляется два основных способа работы с итераторами:
+	```cpp
+	// Проверка итератора на содержание в нём элементов
+	if (it->Next())
 	{
+		// Этот способ удобен для проверки наличия какой-либо конструкции в памяти
+		...
+	}
 
-    std::cout << "Vertex : ";
-    ScIterator5Ptr it = context->Iterator5(                                 // Создаём итератор c названием it с пятью элементами (0, 1, 2, 3, 4)
-                                          graph,                            // 0 - известный узел
-                                          ScType::EdgeAccessConstPosPerm,   // 1 - неизвестная  дуга принадлежности
-                                          ScType(0),                        // 2 - неизвестное
-                                          ScType::EdgeAccessConstPosPerm,   // 3 - неизвестная дуга принадлежности
-                                          rrel_nodes);                      // 4 - известный узел
-                                          
-    if(it->Next()){                                                         // Переходим к первому элементу итератора it, если он есть
-       nodes = it->Get(2);                                                  // В переменную nodes заносим 2 элемент, на который указывает итератор it
-                                                                            // В переменной nodes хранится объект nodes, т. к.  nodes <- graph связаны отношением rrel_nodes
-                                                                            
-        ScIterator3Ptr nodes_it = context->Iterator3(                       // Создаем итератор c названием nodes_it с тремя элементами (0, 1, 2)
-                                          nodes,                            // 0 - известный узел
-                                          ScType::EdgeAccessConstPosPerm,   // 1 - неизвестная дуга принадлежности
-                                          ScType(0));                       // 2 - неизвестное
-        while(nodes_it->Next(){
-                                                                            // Если функция использована 1 раз: Переходим к первому элементу итератора nodes_it, если он есть
-                                                                            // Если функция использована 2 раз: Переходим к следующему элементу итератора nodes_it, если он есть
-              ScAddr t_node = nodes_it->Get(2);
-                                                                            // В переменную t_node заносим 2 элемент, на который указывает итератор it
-                                                                            // В переменной t_node хранится вершина графа graph (вершина может быть любой)
-                                                                            
-              printEl(context, t_node);                                     // Выводим в консоль название этой вершины
-              std::cout << " ";
-              }
-       }
-    std::cout << std::endl;
-	}    
+	// Обработка всех конструкций, содержащихся в итераторе
+	while (it->Next())
+	{
+		...
+	}
+	```
 
+	Пример работы итераторов на основе функции вывода всех вершин :
+
+	```cpp
+	// Функция выводит на экран все вершины графа graph
+	void showAllNodes()
+	{
+		std::cout << "Vertex: ";
+		// Создаём итератор c названием it с пятью элементами (0, 1, 2, 3, 4)
+		// 0 - адрес графа
+		// 1 - неизвестная дуга принадлежности
+		// 2 - неизвестная вершина
+		// 3 - неизвестная дуга принадлежности
+		// 4 - ролевое отношение вершина'
+		ScIterator5Ptr it = context->Iterator5(
+			graph,
+			ScType::EdgeAccessConstPosPerm,
+			ScType(0),
+			ScType::EdgeAccessConstPosPerm,
+			rrel_nodes
+			);
+      
+		// Переходим к первому элементу итератора it, если он есть
+		if(it->Next())
+		{
+			// В переменную nodes заносим 2 элемент, на который указывает итератор it
+			nodes = it->Get(2);
+			// В переменной nodes хранится объект nodes, т.к. nodes <- graph связаны
+			// отношением rrel_nodes
+      
+			// Создаем итератор c названием nodes_it с тремя элементами (0, 1, 2)
+			// 0 - известный узел
+			// 1 - неизвестная дуга принадлежности
+			// 2 - неизвестное
+			ScIterator3Ptr nodes_it = context->Iterator3(
+				nodes,
+				ScType::EdgeAccessConstPosPerm,
+				ScType(0)
+				);
+			while(nodes_it->Next()
+			{
+				// В переменную t_node заносим 2 элемент, на который указывает
+                                // итератор it
+				ScAddr t_node = nodes_it->Get(2);
+				// В переменной t_node хранится вершина графа graph
+                                // (вершина может быть любой)
+
+				// Выводим в консоль название этой вершины
+				printEl(context, t_node);
+				std::cout << " ";
+			}
+		}
+		std::cout << std::endl;
+	}
+	```
+	
+### Устранение проблем
+1. `./wave` не запускается, ошибка поиска библиотек sc-memory:
+Вам необходимо добавить переменную окружения LD_LIBRARY_PATH и указать в ней путь к библиотекам sc-memory: `<путь-к-ostis-web-platform>/sc-machine/bin>`. Делать это нужно в среде, где вы запускаете приложение. Например, в настройки проекта VS Code или JetBrains CLion, или в терминале. Пример для терминала: `LD_LIBRARY_PATH=/Users/fallenchromium/demonstration/ostis-web-platform/sc-machine/bin ./wave`. Примечание: для macOS High Sierra и новее используется переменная `DYLD_FALLBACK_LIBRARY_PATH`  
 
