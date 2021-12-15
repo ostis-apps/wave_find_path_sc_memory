@@ -381,9 +381,8 @@ void run_test (const std::unique_ptr<ScMemoryContext>& context, std::string numb
     ScAddr beg, end;
     father = context->CreateNode(ScType::Const);
 
-    std::string gr = "Gx";
-    gr[1] = number_test[0];
-    graph = context->HelperResolveSystemIdtf(gr);
+    std::string graph_index = "G" + number_test;
+    graph = context->HelperResolveSystemIdtf(graph_index);
     rrel_arcs = context->HelperResolveSystemIdtf("rrel_arcs");
     rrel_nodes = context->HelperResolveSystemIdtf("rrel_nodes");
     beg = context->HelperResolveSystemIdtf(beg_vertex);
@@ -400,7 +399,7 @@ void run_test (const std::unique_ptr<ScMemoryContext>& context, std::string numb
     if (context->IsElement(label))
     {
         std::cout << ": " << std::endl;
-        print_route(context,beg, end);
+        print_route(context, beg, end);
         context->EraseElement(label);
     }
     else std::cout << " doesn't exist" << std::endl;

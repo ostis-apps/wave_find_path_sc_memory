@@ -299,7 +299,7 @@ loc != element;
 		if(it->Next())
 		{
 			// В переменную nodes заносим 2 элемент, на который указывает итератор it
-			nodes = it->Get(2);
+			ScAddr nodes = it->Get(2);
 			// В переменной nodes хранится объект nodes, т.к. nodes <- graph связаны
 			// отношением rrel_nodes
       
@@ -312,7 +312,7 @@ loc != element;
 				ScType::EdgeAccessConstPosPerm,
 				ScType(0)
 				);
-			while(nodes_it->Next()
+			while(nodes_it->Next())
 			{
 				// В переменную t_node заносим 2 элемент, на который указывает
                                 // итератор it
