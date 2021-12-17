@@ -28,8 +28,8 @@ if (${CMAKE_SYSTEM_NAME} STREQUAL Windows)
 
 message(STATUS "CMake generates " ${CMAKE_GENERATOR})
 
-include_directories(${SC_MEMORY_SRC} ${GLIB2_INCLUDE_DIRS}${SC_MACHINE_ROOT})
+include_directories(${SC_MEMORY_SRC} ${SC_MACHINE_ROOT})
 add_executable(wave wavefindpath.cpp utils.cpp utils.h)
 
 
-target_link_libraries(wave sc-core sc-memory ${GLIB2_LIBRARIES})
+target_link_libraries(wave sc-core sc-memory)
